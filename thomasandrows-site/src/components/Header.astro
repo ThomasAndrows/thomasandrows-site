@@ -10,13 +10,13 @@ const active = (href: string) => (path === href || path.startsWith(href + '/') ?
       {NAV.map((l) => <a class="nav-link" href={l.href} aria-current={active(l.href)}>{l.label}</a>)}
     </nav>
     <div style="display: flex; align-items: center; gap: 12px;">
-      <a class="btn-primary header-cta" href={`mailto:${SITE.email}`} style="padding: 10px 18px; font-size: 15px;">Say hello</a>
+      <a class="btn-primary header-cta" href="/contact" style="padding: 10px 18px; font-size: 15px;">Say hello</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav">Menu</button>
     </div>
   </div>
   <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile">
     {NAV.map((l) => <a href={l.href}>{l.label}</a>)}
-    <a href={`mailto:${SITE.email}`} style="color:#D4AF37;">Say hello</a>
+    <a href="/contact" style="color:#D4AF37;">Say hello</a>
   </nav>
   <div class="progress"></div>
 </header>
