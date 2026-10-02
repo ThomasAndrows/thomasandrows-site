@@ -1,0 +1,60 @@
+---
+---
+<figure class="diagram">
+  <svg viewBox="0 0 900 360" role="img" aria-labelledby="ct-t ct-d" font-family="Roboto, system-ui, sans-serif">
+    <title id="ct-t">Consent states over time</title>
+    <desc id="ct-d">Consent starts as denied by default before any tag fires. If the visitor accepts, the state updates to granted and tags run fully. If the visitor rejects, the state stays denied and tags run in a limited, privacy-safe way.</desc>
+
+    <!-- axis markers -->
+    <g stroke="#2a3744" stroke-dasharray="3 5">
+      <line x1="210" y1="52" x2="210" y2="268"/>
+      <line x1="450" y1="52" x2="450" y2="268"/>
+      <line x1="560" y1="52" x2="560" y2="268"/>
+    </g>
+    <g font-size="12" font-weight="700" fill="#D4AF37" text-anchor="middle">
+      <text x="210" y="38">1 Consent default</text>
+      <text x="450" y="38">2 Visitor chooses</text>
+      <text x="560" y="38">3 Consent update</text>
+    </g>
+    <text x="30" y="38" font-size="12" font-weight="700" fill="#8b98a5">Page load</text>
+    <text x="850" y="38" font-size="12" font-weight="700" fill="#8b98a5" text-anchor="end">Next pages</text>
+
+    <!-- lane labels -->
+    <text x="30" y="98" font-size="13" font-weight="700" fill="#fff">Accept</text>
+    <text x="30" y="196" font-size="13" font-weight="700" fill="#fff">Reject</text>
+
+    <!-- accept lane -->
+    <rect x="110" y="80" width="450" height="30" rx="8" fill="#ff8a7a" fill-opacity="0.85"/>
+    <rect x="560" y="80" width="290" height="30" rx="8" fill="#D4AF37"/>
+    <text x="335" y="100" text-anchor="middle" font-size="12.5" font-weight="700" fill="#07090c">denied (default)</text>
+    <text x="705" y="100" text-anchor="middle" font-size="12.5" font-weight="700" fill="#07090c">granted</text>
+    <text x="335" y="130" text-anchor="middle" font-size="12" fill="#aab6c2">tags wait or send limited, cookieless pings</text>
+    <text x="705" y="130" text-anchor="middle" font-size="12" fill="#aab6c2">tags fire fully with identifiers</text>
+
+    <!-- reject lane -->
+    <rect x="110" y="178" width="740" height="30" rx="8" fill="#ff8a7a" fill-opacity="0.85"/>
+    <text x="480" y="198" text-anchor="middle" font-size="12.5" font-weight="700" fill="#07090c">denied (stays denied)</text>
+    <text x="480" y="228" text-anchor="middle" font-size="12" fill="#aab6c2">tags respect the choice, no ad or analytics storage</text>
+
+    <!-- sweeping cursor -->
+    <g>
+      <line x1="110" y1="52" x2="110" y2="268" stroke="#fff" stroke-width="2" stroke-opacity="0.85">
+        <animate attributeName="x1" values="110;850;850" keyTimes="0;0.85;1" dur="7s" repeatCount="indefinite"/>
+        <animate attributeName="x2" values="110;850;850" keyTimes="0;0.85;1" dur="7s" repeatCount="indefinite"/>
+      </line>
+    </g>
+
+    <!-- signals -->
+    <g>
+      <rect x="30" y="284" width="820" height="56" rx="12" fill="#0e1318" stroke="#1c2630"/>
+      <text x="48" y="308" font-size="12" font-weight="700" fill="#8b98a5">THE FOUR SIGNALS TO SET</text>
+      <g font-size="12.5" font-weight="500" fill="#e6edf3">
+        <rect x="48" y="316" width="150" height="18" rx="9" fill="#17130a" stroke="#3a3118"/><text x="123" y="329" text-anchor="middle" fill="#D4AF37">analytics_storage</text>
+        <rect x="208" y="316" width="120" height="18" rx="9" fill="#17130a" stroke="#3a3118"/><text x="268" y="329" text-anchor="middle" fill="#D4AF37">ad_storage</text>
+        <rect x="338" y="316" width="130" height="18" rx="9" fill="#17130a" stroke="#3a3118"/><text x="403" y="329" text-anchor="middle" fill="#D4AF37">ad_user_data</text>
+        <rect x="478" y="316" width="160" height="18" rx="9" fill="#17130a" stroke="#3a3118"/><text x="558" y="329" text-anchor="middle" fill="#D4AF37">ad_personalization</text>
+      </g>
+    </g>
+  </svg>
+  <figcaption>Figure 2. Consent states over time. Default first, update second, and the same flow must work for both Accept and Reject.</figcaption>
+</figure>

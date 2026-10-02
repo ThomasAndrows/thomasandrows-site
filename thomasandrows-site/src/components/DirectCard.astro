@@ -1,0 +1,8 @@
+---
+import { SITE } from '../data/site';
+---
+<div class="card" style="padding: 32px;">
+  <p class="mono" style="margin: 0 0 16px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8b98a5;">Direct</p>
+  <p style="margin: 0; font-size: 18px;"><a class="dl" href={`mailto:${SITE.email}`} style="text-decoration: none; font-weight: 500;"><span class="dl-badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="#07090c" stroke-width="1.8"/><path d="M4 7.5l8 6 8-6" fill="none" stroke="#07090c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>{SITE.email}</a></p>
+  <p style="margin: 14px 0 0; font-size: 18px;"><a class="dl" href={SITE.linkedin} rel="me noopener" target="_blank" style="text-decoration: none; font-weight: 500;"><img class="dl-img" src="/logos/linkedin.png" alt="" width="40" height="40">linkedin.com/in/thomasandrows</a></p>
+</div>

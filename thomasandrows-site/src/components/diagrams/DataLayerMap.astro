@@ -1,0 +1,39 @@
+---
+const groups = [
+  { t: 'Consent', k: ['consent default', 'consent update', 'region rules'] },
+  { t: 'Page', k: ['page_type', 'page_language', 'content_group'] },
+  { t: 'Clicks', k: ['button_text', 'button_id', 'cta_location'] },
+  { t: 'Forms', k: ['form_id', 'form_start', 'form_submit'] },
+  { t: 'User journey', k: ['journey_step', 'login_status', 'user_id (hashed)'] },
+  { t: 'Enrichment', k: ['industry', 'company_size', 'account_tier'] },
+];
+---
+<figure class="diagram">
+  <svg viewBox="0 0 900 400" role="img" aria-labelledby="dm-t dm-d" font-family="Roboto, system-ui, sans-serif">
+    <title id="dm-t">What a complete data layer contains</title>
+    <desc id="dm-d">Six groups of data layer values: consent, page, clicks, forms, user journey and enrichment, all feeding the dataLayer.</desc>
+    <rect x="320" y="14" width="260" height="46" rx="23" fill="#17130a" stroke="#D4AF37"/>
+    <text x="450" y="43" text-anchor="middle" font-size="15" font-weight="700" fill="#D4AF37">dataLayer</text>
+    {groups.map((g, i) => {
+      const col = i % 3;
+      const row = Math.floor(i / 3);
+      const x = 20 + col * 292;
+      const y = 120 + row * 140;
+      const cx = x + 132;
+      return (
+        <g>
+          <path class="d-flow" d={`M${cx} ${y} C ${cx} ${y - 30}, 450 ${y - 40}, 450 62`} fill="none" stroke="#D4AF37" stroke-opacity="0.7" stroke-width="1.6" style={`animation-delay:-${i * 0.3}s`}/>
+          <rect class="d-pulse" x={x} y={y} width="264" height="112" rx="12" fill="#0e1318" stroke="#2a3744" style={`animation-delay:-${i * 0.4}s`}/>
+          <text x={x + 18} y={y + 30} font-size="14" font-weight="700" fill="#fff">{g.t}</text>
+          {g.k.map((k, j) => (
+            <g>
+              <circle cx={x + 24} cy={y + 54 + j * 20} r="3" fill="#D4AF37"/>
+              <text x={x + 36} y={y + 58 + j * 20} font-size="12.5" fill="#c3ced8">{k}</text>
+            </g>
+          ))}
+        </g>
+      );
+    })}
+  </svg>
+  <figcaption>Figure 3. Six groups of values your data layer should carry before tagging starts.</figcaption>
+</figure>

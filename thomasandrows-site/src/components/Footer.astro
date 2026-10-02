@@ -1,0 +1,41 @@
+---
+import { NAV, SITE, TOOLS } from '../data/site';
+const year = new Date().getFullYear();
+const t = (n: string) => TOOLS.find((x) => x.name === n)!;
+const footTools = [
+  { name: 'Google Analytics', href: TOOLS[0].href },
+  { name: 'Google Tag Manager', href: TOOLS[1].href },
+  { name: 'BigQuery', href: TOOLS[2].href },
+  { name: 'Looker Studio', href: TOOLS[4].href },
+  { name: 'Search Console', href: TOOLS[3].href },
+];
+---
+<footer style="background: #0a0e12; padding: 64px 0 40px;">
+  <div class="wrap">
+    <div style="display: flex; justify-content: space-between; gap: 48px; flex-wrap: wrap;">
+      <div style="max-width: 360px;">
+        <div class="mono" style="font-size: 18px; font-weight: 500; color: #e6edf3;">{SITE.brand}<span style="color: #D4AF37;">_</span></div>
+        <p style="margin: 14px 0 0; font-size: 15px; line-height: 1.6; color: #8b98a5;">Web analytics leader. GA4, server-side GTM, BigQuery and AI search visibility. Based in {SITE.location}.</p>
+      </div>
+      <nav aria-label="Footer" style="display: flex; gap: 64px; flex-wrap: wrap;">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div class="mono" style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8b98a5; margin-bottom: 6px;">Pages</div>
+          <a class="foot-link" href="/">Home</a>
+          {NAV.map((l) => <a class="foot-link" href={l.href}>{l.label}</a>)}
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div class="mono" style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8b98a5; margin-bottom: 6px;">Tools</div>
+          {footTools.map((l) => <a class="foot-link" href={l.href} target="_blank" rel="noopener">{l.name}</a>)}
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div class="mono" style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8b98a5; margin-bottom: 6px;">Connect</div>
+          <a class="foot-link" href={`mailto:${SITE.email}`}>Email</a>
+          <a class="foot-link" href={SITE.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
+          <a class="foot-link" href="/rss.xml">RSS</a>
+          <a class="foot-link" href="/llms.txt">llms.txt</a>
+        </div>
+      </nav>
+    </div>
+    <p style="margin: 56px 0 0; font-size: 14px; color: #8b98a5;">&copy; {year} {SITE.name}. Views are my own.</p>
+  </div>
+</footer>

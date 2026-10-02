@@ -1,0 +1,24 @@
+<script is:inline>
+  document.querySelectorAll('form.ajax-form').forEach(function (form) {
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var msg = form.querySelector('.form-msg');
+      var btn = form.querySelector('button[type=submit]');
+      var data = Object.fromEntries(new FormData(form).entries());
+      msg.className = 'form-msg'; msg.textContent = 'Sending...'; btn.disabled = true;
+      try {
+        var res = await fetch(form.dataset.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        var json = await res.json().catch(function () { return {}; });
+        if (!res.ok || !json.ok) throw new Error(json.error || 'Request failed');
+        form.reset();
+        msg.className = 'form-msg ok';
+        msg.textContent = form.dataset.kind === 'newsletter' ? 'Thanks. You are on the list.' : 'Thanks. Your message is on its way.';
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: form.dataset.kind === 'newsletter' ? 'newsletter_signup' : 'generate_lead', form_id: form.dataset.kind });
+      } catch (err) {
+        msg.className = 'form-msg err';
+        msg.textContent = 'Could not send. Please email thomasandrows@gmail.com directly.';
+      } finally { btn.disabled = false; }
+    });
+  });
+</script>

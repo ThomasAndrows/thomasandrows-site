@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found" description="This page does not exist." path="/404" noindex>
+  <section class="page-hero" style="min-height: 60vh; display:flex; align-items:center;">
+    <div class="wrap">
+      <p class="eyebrow mono">404</p>
+      <h1 class="h1">Event not found.</h1>
+      <p class="lead">That page is not in the data layer. Try the home page or the latest insights.</p>
+      <p style="margin-top: 28px; display:flex; gap:16px; flex-wrap:wrap;"><a class="btn-primary" href="/">Home</a><a class="btn-ghost" href="/insights">Insights</a></p>
+    </div>
+  </section>
+</BaseLayout>

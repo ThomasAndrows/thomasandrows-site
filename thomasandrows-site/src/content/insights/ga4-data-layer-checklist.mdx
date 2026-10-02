@@ -1,0 +1,166 @@
+---
+title: "A GA4 data layer checklist: what to set up before you tag anything"
+description: "Before you build a single tag, design the architecture and the data layer. A practical GA4 and Google Tag Manager checklist covering consent, events, forms and enrichment."
+category: "GA4"
+publishDate: 2026-10-02
+image: "/images/insights/ga4-data-layer-checklist.png"
+imageAlt: "Featured image for the GA4 data layer checklist article"
+answer: "Before you tag anything in GA4, draw the full tracking architecture from the visitor and the cookie consent banner through the data layer and Google Tag Manager to your destinations. Then design the data layer itself: consent default and update states, page values, button clicks, form events, user journey steps and any enrichment data. Tags are easy to change later. A weak data layer is not."
+keywords: ["GA4 data layer", "GA4 implementation checklist", "Google Tag Manager data layer", "Consent Mode v2", "dataLayer.push", "GA4 tracking plan"]
+faqs:
+  - q: "What is a data layer in Google Tag Manager?"
+    a: "A data layer is a JavaScript array, usually named dataLayer, that your website uses to pass structured information such as events, page details and consent states to Google Tag Manager. GTM reads it to decide which tags to fire and what values to send."
+  - q: "Should I use Google Tag Manager or put GA4 code directly on the site?"
+    a: "Use Google Tag Manager in most cases. It keeps marketing tags in one dedicated place and avoids disturbing your web team for every change. Native code only makes sense in rare cases where raw speed is the top priority."
+  - q: "What consent signals should be in the data layer?"
+    a: "Set default states for analytics_storage, ad_storage, ad_user_data and ad_personalization before any tag fires, then send an update when the visitor accepts or rejects. Test both the Accept and the Reject path."
+  - q: "How do I get enrichment data like Demandbase into GA4?"
+    a: "Either ask your web team to push the enrichment values into the data layer, or read them in Google Tag Manager from the vendor's response and push them to the data layer yourself. Then send them to GA4 as event parameters and register them as custom dimensions. Only do this after consent and never send personal data."
+  - q: "What should I test before launching GA4 tracking?"
+    a: "Test the consent default and update on both the Accept and Reject paths, every button and link click, form start and submit events, journey steps and enrichment values. Use GTM Preview and GA4 DebugView, and repeat the checks after major site releases."
+---
+import VisitorFlow from '../../components/diagrams/VisitorFlow.astro';
+import ConsentTimeline from '../../components/diagrams/ConsentTimeline.astro';
+import DataLayerMap from '../../components/diagrams/DataLayerMap.astro';
+
+Most GA4 projects go wrong in the first week, and it is rarely because of a tag. It happens because someone opened Google Tag Manager and started building before anyone agreed how the data would flow. Months later the team is re-tagging the whole site.
+
+This checklist is what I work through before I tag anything. It starts with a diagram and ends with a data layer that your web team, your marketing team and your analysts all agree on.
+
+## Start with the architecture diagram, not with tags
+
+Before any web infrastructure setup for tracking, draw the complete workflow. Follow one visitor from the moment they land on your site and write down every system their data touches.
+
+<VisitorFlow />
+
+The journey always begins at the **cookie consent banner**. The visitor either accepts or rejects, and either way you now hold a consent decision that every later step has to respect. That decision goes into the data layer. Google Tag Manager reads the data layer and decides which tags may fire, and those tags send data on to GA4, your marketing platforms and, if you use it, a server-side container and BigQuery.
+
+Two more things feed the data layer, and they belong on the same diagram:
+
+- **Your web team**, who push events and values from the site code.
+- **Enrichment tools** such as Demandbase, which add company-level information.
+
+If you cannot draw the whole flow on one page, you are not ready to tag.
+
+## Why Google Tag Manager is the default
+
+In most cases the data goes through Google Tag Manager, and I recommend it for a simple reason: it gives marketing tags a dedicated place to live. You can add, change and test tags without waiting in the web team's release queue and without risking their code.
+
+There is a rare exception. If you want something to load really, really fast, you can use native code on the site. I only recommend that when speed is the priority. For every other marketing tag, use GTM.
+
+Either way, the data layer is where the real work begins, and you need your web team for it. Whenever an event push happens, or any other value has to reach the data layer, it is a conversation with the people who own the site code. Start that conversation early.
+
+## Step 1: Design consent in the data layer first
+
+Consent is the first thing the data layer must say, so design it before anything else. You need two states:
+
+1. **A default state**, set before any tag fires. For most visitors this means denied.
+2. **An updated state**, sent as soon as the visitor makes a choice.
+
+<ConsentTimeline />
+
+Here is the default, which must run before Google Tag Manager loads:
+
+```js
+window.dataLayer = window.dataLayer || [];
+function gtag() { dataLayer.push(arguments); }
+
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  analytics_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  wait_for_update: 500
+});
+```
+
+And the update, sent when the visitor clicks Accept in your consent banner:
+
+```js
+gtag('consent', 'update', {
+  ad_storage: 'granted',
+  analytics_storage: 'granted',
+  ad_user_data: 'granted',
+  ad_personalization: 'granted'
+});
+```
+
+Most consent management platforms do this for you through a Google Tag Manager template. Your job is to verify it, not to assume it:
+
+- Fire the consent default on the **Consent Initialization** trigger so it runs before everything else.
+- Test the **Accept** path and the **Reject** path. Reject is the one teams forget.
+- Confirm the saved choice is read on the next page, so returning visitors are not asked again and tags do not misfire.
+- Remember that Google requires the Consent Mode v2 signals for advertising features with traffic from the EEA and the UK.
+
+## Step 2: Map every value the data layer needs
+
+With consent settled, list the other values. I group them like this:
+
+<DataLayerMap />
+
+| Group | What to capture |
+| --- | --- |
+| Page | Page type, language and content group, pushed on every page load |
+| Clicks | Button text, button ID and where on the page the call to action sits |
+| Forms | Form ID, form start and form submit, plus the step in multi-step forms |
+| User journey | The step in the journey, login status and a hashed user ID where appropriate |
+| Enrichment | Company-level attributes such as industry, size or account tier |
+
+Write this down as a **tracking plan**: one row per event, with its name, parameters, owner and the page or component it belongs to. This sheet is the contract between analytics and the web team.
+
+## Step 3: Agree the contract with your web team
+
+A data layer only works if the push is predictable. Agree the rules before development starts:
+
+- Use one naming convention, such as snake_case, for every event and parameter.
+- Initialize the data layer **above** the GTM snippet and never overwrite it.
+- Push an `event` key whenever you want GTM to react, with the values alongside it.
+- Never put personal data such as names, email addresses or phone numbers in the data layer.
+
+A button click should look like this:
+
+```js
+dataLayer.push({
+  event: 'cta_click',
+  button_text: 'Get a demo',
+  button_id: 'hero-demo',
+  cta_location: 'hero',
+  page_type: 'pricing'
+});
+```
+
+## Step 4: Check buttons, forms and the journey
+
+This is where tracking quietly breaks, so check it deliberately.
+
+- **Buttons and links.** Click every important call to action and confirm the push appears in the data layer, with the right values.
+- **Forms.** GA4 can detect some form interactions on its own, but custom and AJAX forms often slip through. Push your own `form_start` and `form_submit` events and send field names, never field values.
+- **User journey.** Define the steps of the journey up front, for example `viewed_pricing`, `started_trial` and `completed_signup`, so your analysis is not reverse-engineered from page URLs.
+
+## Step 5: Plan for enrichment data
+
+If you use an enrichment tool such as Demandbase, decide how its values will reach the data layer. There are two routes:
+
+1. **Ask your web team** to push the values into the data layer when the vendor responds.
+2. **Do it in Google Tag Manager.** Read the vendor's response through a tag or variable, push the values into the data layer yourself and pick them up with other tags.
+
+Either way, only do it after the right consent is granted, send the values to GA4 as event parameters and register them as custom dimensions so they appear in reports.
+
+## Step 6: Document, test and keep testing
+
+Before launch, run through the whole flow with GTM Preview mode and GA4 DebugView. Test as a new visitor who accepts, as a new visitor who rejects and as a returning visitor. Then repeat the checks after every major site release, because front-end changes are the most common cause of broken tracking.
+
+## The checklist
+
+- [ ] Architecture diagram drawn, from the consent banner to your destinations
+- [ ] Decision made: Google Tag Manager (default) or, rarely, native code
+- [ ] Consent default state set before any tag fires
+- [ ] Consent update tested on both Accept and Reject
+- [ ] Tracking plan written and agreed with the web team
+- [ ] Naming convention and data layer initialization agreed
+- [ ] Page, click, form and journey values defined
+- [ ] Enrichment route decided, with consent and privacy checked
+- [ ] Custom dimensions registered in GA4
+- [ ] Tested in GTM Preview and GA4 DebugView, and scheduled for re-testing
+
+Tags are the easy part. If the data layer is designed well, everything you build on top of it stays stable. If it is not, you will be rebuilding it later.

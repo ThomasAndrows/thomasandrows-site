@@ -1,0 +1,64 @@
+---
+const { n, alt } = Astro.props;
+const files = { 1: '01-collect', 2: '02-model', 3: '03-report', 4: '04-found' };
+const dot = (path, dur, begin) => ({ path, dur, begin });
+const flows = {
+  1: [
+    ...[82, 152, 226, 302, 377].map((y, i) => dot(`M152,${y} C240,${y} 250,228 345,228`, '2.6s', `${i * 0.5}s`)),
+    dot('M430,238 L610,238', '1.6s', '0s'), dot('M430,238 L610,238', '1.6s', '0.8s'),
+  ],
+  2: [
+    dot('M254,131 C292,131 292,216 330,216', '2.2s', '0s'),
+    dot('M250,322 C290,322 290,249 330,249', '2.2s', '0.7s'),
+    dot('M493,216 C540,216 540,135 590,135', '2.2s', '1.1s'),
+    dot('M493,263 C540,263 540,331 590,331', '2.2s', '1.7s'),
+  ],
+  3: [],
+  4: [
+    dot('M543,143 C600,143 610,193 657,193', '2.4s', '0s'),
+    dot('M543,169 C600,169 610,193 657,193', '2.4s', '0.8s'),
+    dot('M590,253 C620,253 630,209 657,209', '2.4s', '1.6s'),
+  ],
+};
+const rings = { 1: [[690, 235, 50]], 2: [[420, 232, 40]], 3: [[476, 220, 8], [123, 345, 6]], 4: [[727, 190, 42], [537, 74, 8]] };
+---
+<figure class="sv" style="margin:24px 0 0;">
+  <img src={`/images/stack/${files[n]}.webp`} alt={alt} width="832" height="462" loading="lazy" style="display:block;width:100%;height:auto;border:1px solid #1c2630;border-radius:10px;" />
+  <svg class="sv-fx" viewBox="0 0 832 462" aria-hidden="true" focusable="false" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id={`sv-sweep-${n}`} x1="0" x2="1"><stop offset="0" stop-color="#D4AF37" stop-opacity="0"/><stop offset="0.5" stop-color="#F2CF5E" stop-opacity="0.35"/><stop offset="1" stop-color="#D4AF37" stop-opacity="0"/></linearGradient>
+      <filter id={`sv-glow-${n}`} x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+    </defs>
+    {n === 3 && (
+      <g>
+        <rect y="199" width="90" height="170" fill={`url(#sv-sweep-${n})`}>
+          <animate attributeName="x" values="107;420;107" dur="5s" repeatCount="indefinite" />
+        </rect>
+        <rect x="548" y="199" width="180" height="170" fill={`url(#sv-sweep-${n})`} opacity="0.0">
+          <animate attributeName="opacity" values="0;0.5;0" dur="3s" repeatCount="indefinite" />
+        </rect>
+      </g>
+    )}
+    {rings[n].map(([cx, cy, r], i) => (
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="#F2CF5E" stroke-width="2" opacity="0">
+        <animate attributeName="r" values={`${r};${r * 2.2}`} dur="2.4s" begin={`${i * 0.9}s`} repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.7;0" dur="2.4s" begin={`${i * 0.9}s`} repeatCount="indefinite" />
+      </circle>
+    ))}
+    {flows[n].map((f) => (
+      <g>
+        <circle r="7" fill="#F2CF5E" opacity="0.55" filter={`url(#sv-glow-${n})`}>
+          <animateMotion path={f.path} dur={f.dur} begin={f.begin} repeatCount="indefinite" />
+        </circle>
+        <circle r="3.5" fill="#FFE58A">
+          <animateMotion path={f.path} dur={f.dur} begin={f.begin} repeatCount="indefinite" />
+        </circle>
+      </g>
+    ))}
+  </svg>
+</figure>
+<style>
+  .sv { position: relative; }
+  .sv-fx { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 10px; pointer-events: none; overflow: hidden; }
+  @media (prefers-reduced-motion: reduce) { .sv-fx { display: none; } }
+</style>

@@ -1,0 +1,13 @@
+---
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+<form class="card ajax-form" data-endpoint="/api/contact" data-kind="contact" action="mailto:thomasandrows@gmail.com" method="post" enctype="text/plain" style="padding: 32px; display: flex; flex-direction: column; gap: 20px;">
+  <div><label class="label" for="c-name">Name</label><input class="input" id="c-name" name="name" type="text" autocomplete="name" required></div>
+  <div><label class="label" for="c-email">Email</label><input class="input" id="c-email" name="email" type="email" autocomplete="email" required></div>
+  <div><label class="label" for="c-msg">Message</label><textarea class="input" id="c-msg" name="message" rows="5" style="resize: vertical;" required></textarea></div>
+  <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+  {siteKey && <div class="cf-turnstile" data-sitekey={siteKey} data-theme="dark"></div>}
+  <div><button class="btn-primary" type="submit" style="border: 0; cursor: pointer; font-family: 'Roboto', sans-serif;">Send message</button></div>
+  <p class="form-msg" role="status" aria-live="polite"></p>
+</form>
+{siteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}

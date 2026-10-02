@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+import { FIELD_NOTES } from '../data/fieldnotes';
+const jsonLd = [
+  { '@type': 'CollectionPage', url: `${SITE.url}/field-notes`, name: 'Field Notes', about: { '@id': `${SITE.url}/#person` } },
+  { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url + '/' }, { '@type': 'ListItem', position: 2, name: 'Field Notes', item: SITE.url + '/field-notes' }] },
+];
+---
+<BaseLayout title="Field Notes: Conferences and the People Behind Analytics" description="Photos and notes from brightonSEO, a Google Search conference in Chennai, meeting Krista Seiden and Oscar Piastri. The communities that shaped how Thomas Androws measures." path="/field-notes" jsonLd={jsonLd}>
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow mono">Field notes</p>
+      <h1 class="h1" style="max-width: 900px;">Conferences, communities and the people who shaped how I measure.</h1>
+    </div>
+  </section>
+  <section class="sec sec-pad" style="overflow:hidden;">
+    <div class="wrap" style="display:flex;flex-direction:column;gap:56px;">
+      {FIELD_NOTES.map((f, i) => (
+        <article class:list={['reveal', 'fn-row', i % 2 === 1 && 'fn-rev']} style="display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:48px;align-items:center;">
+          <div class="card" style="overflow:hidden;">
+            <img src={f.img} alt={f.alt} width={f.width} height={f.height} loading={i === 0 ? 'eager' : 'lazy'} style={`display:block;width:100%;height:auto;max-height:620px;object-fit:cover;object-position:${f.pos};`}>
+          </div>
+          <div>
+            <p class="mono" style="margin:0 0 10px;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:#D4AF37;">{f.meta}</p>
+            <h2 style="margin:0;font-size:clamp(28px,3.4vw,40px);font-weight:900;letter-spacing:-0.02em;color:#fff;">{f.title}</h2>
+            <p style="margin:18px 0 0;font-size:18px;line-height:1.7;color:#aab6c2;">{f.long}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .fn-rev > :first-child { order: 2; }
+  @media (max-width: 900px) {
+    .fn-row { grid-template-columns: minmax(0, 1fr) !important; gap: 24px !important; }
+    .fn-rev > :first-child { order: 0; }
+  }
+</style>

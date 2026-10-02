@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+import DirectCard from '../components/DirectCard.astro';
+import FormScript from '../components/FormScript.astro';
+import { SITE } from '../data/site';
+const jsonLd = [
+  { '@type': 'ContactPage', url: `${SITE.url}/contact`, name: 'Contact Thomas Androws', about: { '@id': `${SITE.url}/#person` } },
+  { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url + '/' }, { '@type': 'ListItem', position: 2, name: 'Contact', item: SITE.url + '/contact' }] },
+];
+---
+<BaseLayout title="Contact Thomas Androws" description="Questions on GA4, server-side tagging, BigQuery or AI search visibility? Email Thomas Androws, connect on LinkedIn or subscribe to the weekly analytics notes." path="/contact" jsonLd={jsonLd}>
+  <section class="sec" style="padding: 120px 0; overflow: hidden;">
+    <svg class="deco" aria-hidden="true" focusable="false" viewBox="0 0 760 760" style="position: absolute; right: -320px; top: -60px; width: 760px; height: 760px; pointer-events: none;">
+      <circle class="ring" cx="380" cy="380" r="360" fill="none" stroke="#D4AF37" stroke-opacity="0.3" stroke-width="1.5"></circle>
+      <circle class="ring" style="animation-delay: -2.3s;" cx="380" cy="380" r="360" fill="none" stroke="#D4AF37" stroke-opacity="0.3" stroke-width="1.5"></circle>
+      <circle class="ring" style="animation-delay: -4.6s;" cx="380" cy="380" r="360" fill="none" stroke="#D4AF37" stroke-opacity="0.3" stroke-width="1.5"></circle>
+      <circle cx="380" cy="380" r="5" fill="#D4AF37"></circle>
+    </svg>
+    <div class="wrap">
+      <p class="eyebrow mono">Contact</p>
+      <h1 class="h1" style="max-width: 900px; font-size: clamp(40px, 6vw, 80px);">Let's talk <span style="color: #D4AF37;">measurement.</span></h1>
+      <p class="lead">Questions on GA4, server-side tagging, BigQuery or AI search visibility? Send a note and I will reply.</p>
+      <div class="grid2" style="margin-top: 56px;">
+        <ContactForm />
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <DirectCard />
+          <NewsletterForm />
+        </div>
+      </div>
+    </div>
+  </section>
+  <FormScript />
+</BaseLayout>
