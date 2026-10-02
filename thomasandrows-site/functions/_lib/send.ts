@@ -35,6 +35,8 @@ export async function handle(request: Request, env: Env, kind: 'contact' | 'news
   const name = String(data.name || '').trim().slice(0, 120);
   const message = String(data.message || '').trim().slice(0, 5000);
   if (!validEmail(email)) return json({ ok: false, error: 'Invalid email' }, 400);
+  // Newsletter requires explicit opt-in (GDPR, DPDP). The form checkbox sends consent=on.
+  if (kind === 'newsletter' && !data.consent) return json({ ok: false, error: 'Consent required' }, 400);
   if (kind === 'contact' && (!name || message.length < 5)) return json({ ok: false, error: 'Missing fields' }, 400);
 
   if (env.TURNSTILE_SECRET) {
@@ -56,7 +58,7 @@ export async function handle(request: Request, env: Env, kind: 'contact' | 'news
   const html =
     kind === 'contact'
       ? `<p><strong>Name:</strong> ${esc(name)}</p><p><strong>Email:</strong> ${esc(email)}</p><p>${esc(message).replace(/\n/g, '<br>')}</p>`
-      : `<p>New newsletter signup:</p><p><strong>${esc(email)}</strong></p>`;
+      : `<p>New newsletter signup:</p><p><strong>${esc(email)}</strong></p><p style="color:#666">Consent given via unticked checkbox on ${new Date().toISOString()} (UTC). Text: "I agree to receive the weekly analytics notes by email."</p>`;
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
