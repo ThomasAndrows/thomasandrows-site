@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+const jsonLd = [
+  { '@type': 'WebPage', url: `${SITE.url}/privacy`, name: 'Privacy and cookies', isPartOf: { '@id': `${SITE.url}/#website` } },
+  { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url + '/' }, { '@type': 'ListItem', position: 2, name: 'Privacy', item: SITE.url + '/privacy' }] },
+];
+const h2 = 'margin: 48px 0 12px; font-size: 26px; line-height: 1.2; font-weight: 700; color: #fff;';
+const p = 'margin: 0 0 14px; font-size: 17px; line-height: 1.7; color: #c3ced8;';
+---
+<BaseLayout title="Privacy and Cookies" description="What this site collects, why, how long it is kept, and how to change your cookie choice. Plain language, no ad tracking." path="/privacy" jsonLd={jsonLd}>
+  <section class="sec" style="padding: 120px 0 80px;">
+    <div class="wrap" style="max-width: 820px;">
+      <p class="eyebrow mono">Privacy</p>
+      <h1 class="h1" style="font-size: clamp(36px, 5vw, 60px);">Privacy and cookies</h1>
+      <p class="lead">This site is run by {SITE.name}. Here is what it collects and why, in plain language. Last updated 3 October 2026.</p>
+
+      <h2 style={h2}>The short version</h2>
+      <ul style="margin: 0 0 14px; padding-left: 22px; font-size: 17px; line-height: 1.7; color: #c3ced8;">
+        <li>Analytics only run if you accept them. If you reject, no analytics cookies are set.</li>
+        <li>I do not sell your personal data and I do not share it for advertising.</li>
+        <li>If you send a message or join the newsletter, I use your details only to reply or to send the notes.</li>
+        <li>You can see, correct, delete or take your data, and withdraw consent, wherever you live.</li>
+      </ul>
+
+      <h2 style={h2}>Who is responsible</h2>
+      <p style={p}>{SITE.name} runs this site and decides how your data is used (the "data controller" under GDPR and the "data fiduciary" under India's DPDP Act). Contact: <a href="/contact" style="color:#D4AF37;">contact page</a>, or email <a href="mailto:thomasandrows@gmail.com" style="color:#D4AF37;">thomasandrows@gmail.com</a>. This address also serves as the grievance contact.</p>
+
+      <h2 style={h2}>What I collect, why, and on what basis</h2>
+      <ul style="margin: 0 0 14px; padding-left: 22px; font-size: 17px; line-height: 1.7; color: #c3ced8;">
+        <li><strong style="color:#fff;">Analytics data</strong> (pages viewed, device and browser type, approximate location, referrer, cookie identifiers). Purpose: to learn which articles help people. Basis: your consent.</li>
+        <li><strong style="color:#fff;">Contact messages</strong> (name, email, message). Purpose: to reply. Basis: you asked me to, and your consent when you send it.</li>
+        <li><strong style="color:#fff;">Newsletter</strong> (email address). Purpose: to send the weekly notes. Basis: your consent, given by ticking the box. I keep the date and time of that consent.</li>
+        <li><strong style="color:#fff;">Server and security logs</strong> (IP address, request details), handled by Cloudflare. Purpose: delivering the site and stopping abuse. Basis: legitimate interest.</li>
+      </ul>
+
+      <h2 style={h2}>Analytics cookies (only with your consent)</h2>
+      <p style={p}><strong style="color:#fff;">Google Analytics 4</strong> counts visits and shows which pages and articles are read. It sets the cookies <code>_ga</code> and <code>_ga_*</code>. Event data is kept for 14 months.</p>
+      <p style={p}><strong style="color:#fff;">Microsoft Clarity</strong> shows heatmaps and anonymised session recordings so I can see where pages confuse people. It sets the cookies <code>_clck</code> and <code>_clsk</code>. Text typed into form fields is masked and never recorded.</p>
+      <p style={p}>Both tools are loaded through Google Tag Manager, and only after you accept analytics. Your choice is stored in a cookie called <code>cc_cookie</code>, which is necessary for the banner to remember you. Nothing non-essential is set before you choose, and rejecting is as easy as accepting.</p>
+
+      <h2 style={h2}>Change or withdraw your choice</h2>
+      <p style={p}>Use the <strong style="color:#fff;">Cookie settings</strong> link in the footer of any page to accept or reject analytics again at any time. Rejecting removes the analytics cookies from your browser. You can unsubscribe from the newsletter at any time by replying to any email or using the contact page.</p>
+
+      <h2 style={h2}>Who receives your data</h2>
+      <p style={p}>I use a small number of service providers to run the site: Cloudflare (hosting and spam protection), Resend (delivering form emails), Google (Analytics and Tag Manager) and Microsoft (Clarity), plus my email provider. They process data on my behalf. These providers may be located outside your country, including in the United States and India, so your data can be transferred internationally. Where the law requires it, this relies on safeguards such as standard contractual clauses or the provider's data privacy framework certification.</p>
+
+      <h2 style={h2}>How long I keep it</h2>
+      <ul style="margin: 0 0 14px; padding-left: 22px; font-size: 17px; line-height: 1.7; color: #c3ced8;">
+        <li>Analytics event data: 14 months, then deleted automatically.</li>
+        <li>Contact messages: up to 24 months after our last exchange, then deleted.</li>
+        <li>Newsletter email address: until you unsubscribe or ask me to delete it.</li>
+        <li>Consent choice cookie: 6 months, then the banner asks again.</li>
+      </ul>
+
+      <h2 style={h2}>Your rights</h2>
+      <p style={p}><strong style="color:#fff;">EU, EEA and UK (GDPR):</strong> you can ask for access, correction, deletion, restriction, a portable copy, and you can object to processing or withdraw consent at any time. You can also complain to your local data protection authority.</p>
+      <p style={p}><strong style="color:#fff;">California (CCPA/CPRA):</strong> you can ask to know what is held about you, to delete it, to correct it, and to opt out of sale or sharing. I do not sell or share personal information, and I do not use it for targeted advertising. I will not treat you differently for using these rights.</p>
+      <p style={p}><strong style="color:#fff;">India (DPDP Act 2023):</strong> you can ask for a summary of the data held about you, correction, completion, updating and erasure, withdraw consent as easily as you gave it, nominate someone to exercise your rights, and use my grievance contact below. If you are not satisfied, you can approach the Data Protection Board of India once it is operational.</p>
+      <p style={p}>To use any of these rights, use the <a href="/contact" style="color:#D4AF37;">contact page</a> or email <a href="mailto:thomasandrows@gmail.com" style="color:#D4AF37;">thomasandrows@gmail.com</a>. I aim to reply within 30 days, and for India-based grievances within 90 days at most.</p>
+
+      <h2 style={h2}>Children</h2>
+      <p style={p}>This site is written for professionals and is not aimed at children. I do not knowingly collect data from anyone under 18. If you think a child has sent me their details, tell me and I will delete them.</p>
+
+      <h2 style={h2}>Hosting</h2>
+      <p style={p}>The site is served by Cloudflare. Like any host, Cloudflare processes technical data such as your IP address to deliver pages and protect the site from abuse. Spam protection on the forms may use Cloudflare Turnstile.</p>
+
+      <h2 style={h2}>Changes</h2>
+      <p style={p}>If this page changes in a way that matters, I will update the date at the top. This page is a plain language summary and not legal advice.</p>
+    </div>
+  </section>
+</BaseLayout>
