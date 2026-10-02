@@ -46,7 +46,6 @@ export const FIELD_NOTES = [
 ];
 
 export const COMING_SOON = [
-  { chip: 'Server-side GTM', title: 'Server-side GTM: when it is worth it and when it is not', blurb: 'An honest look at the cost, the benefits and the traps.' },
   { chip: 'AEO', title: 'How to measure AI search visibility with GA4 and Search Console', blurb: 'What you can track today, and what you cannot yet.' },
 ];
 
