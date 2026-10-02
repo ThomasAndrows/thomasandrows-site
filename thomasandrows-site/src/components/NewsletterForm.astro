@@ -5,6 +5,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
   <p class="mono" style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #D4AF37;">Weekly notes</p>
   <h3 style="margin: 0; font-size: 24px; font-weight: 700; color: #ffffff;">New analytics articles in your inbox.</h3>
   <div style="margin-top: 20px;"><label class="label" for="n-email">Email</label><input class="input" id="n-email" name="email" type="email" autocomplete="email" required></div>
+  <div style="margin-top: 14px; display: flex; gap: 10px; align-items: flex-start;"><input id="n-consent" name="consent" type="checkbox" required style="margin-top: 4px; accent-color: #D4AF37; width: 16px; height: 16px; flex: none;"><label for="n-consent" style="font-size: 14px; line-height: 1.5; color: #c3ced8;">I agree to receive the weekly analytics notes by email. I can unsubscribe at any time. See the <a href="/privacy" style="color:#D4AF37;">privacy page</a>.</label></div>
   <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
   <div style="margin-top: 16px;"><button class="btn-primary" type="submit" style="border: 0; cursor: pointer; font-family: 'Roboto', sans-serif;">Subscribe</button></div>
   <p class="form-msg" role="status" aria-live="polite"></p>

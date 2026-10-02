@@ -7,6 +7,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
   <div><label class="label" for="c-msg">Message</label><textarea class="input" id="c-msg" name="message" rows="5" style="resize: vertical;" required></textarea></div>
   <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
   {siteKey && <div class="cf-turnstile" data-sitekey={siteKey} data-theme="dark"></div>}
+  <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #9fb0c0;">By sending this message you agree that I use your name, email and message only to reply to you. See the <a href="/privacy" style="color:#D4AF37;">privacy page</a>.</p>
   <div><button class="btn-primary" type="submit" style="border: 0; cursor: pointer; font-family: 'Roboto', sans-serif;">Send message</button></div>
   <p class="form-msg" role="status" aria-live="polite"></p>
 </form>
