@@ -4,7 +4,7 @@ export const SITE = {
   brand: 'thomas androws',
   title: 'Thomas Androws | Web Analytics Leader',
   description:
-    'Thomas Androws is a web analytics leader with 12+ years across GA4, server-side GTM, BigQuery and AI search visibility. Manager of Data Analytics (Brand and Web) at Freshworks.',
+    'Thomas Androws is a web analytics leader with 13+ years across GA4, server-side GTM, BigQuery and AI search visibility. Manager of Data Analytics (Brand and Web) at Freshworks.',
   email: 'thomasandrows@gmail.com',
   linkedin: 'https://www.linkedin.com/in/thomasandrows/',
   location: 'Chennai, India',

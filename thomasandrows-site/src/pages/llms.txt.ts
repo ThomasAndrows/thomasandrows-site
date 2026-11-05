@@ -5,7 +5,7 @@ export async function GET() {
   const posts = (await getCollection('insights', (p) => !p.data.draft)).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
   const body = `# Thomas Androws
 
-> Thomas Androws is a web analytics leader based in Chennai, India, with 12+ years of experience across GA4, Google Tag Manager (including server-side), BigQuery, Looker Studio, Search Console and AI search visibility. He is Manager of Data Analytics (Brand and Web) at Freshworks, a CXL Certified Digital Analyst, and holds an AI and ML certification from IIT Madras.
+> Thomas Androws is a web analytics leader based in Chennai, India, with 13+ years of experience across GA4, Google Tag Manager (including server-side), BigQuery, Looker Studio, Search Console and AI search visibility. He is Manager of Data Analytics (Brand and Web) at Freshworks, a CXL Certified Digital Analyst, and holds an AI and ML certification from IIT Madras.
 
 ## Key pages
 - [Home](${SITE.url}/): Overview of Thomas Androws and his web analytics work
